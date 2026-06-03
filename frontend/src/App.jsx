@@ -22,7 +22,12 @@ export default function App() {
 
   const [input, setInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
   const [copiedId, setCopiedId] = useState(null);
 
   const messagesEndRef = useRef(null);
@@ -51,6 +56,22 @@ export default function App() {
     }
   }, [input]);
 
+  // Handle sidebar collapse on window resize transitions
+  useEffect(() => {
+    let prevWidth = window.innerWidth;
+    const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      if (currentWidth < 768 && prevWidth >= 768) {
+        setSidebarCollapsed(true);
+      } else if (currentWidth >= 768 && prevWidth < 768) {
+        setSidebarCollapsed(false);
+      }
+      prevWidth = currentWidth;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const activeChat = chats.find(c => c.id === activeChatId) || chats[0];
   const messages = activeChat ? activeChat.messages : [];
 
@@ -65,6 +86,9 @@ export default function App() {
     setChats(prev => [newChat, ...prev]);
     setActiveChatId(newId);
     setInput('');
+    if (window.innerWidth < 768) {
+      setSidebarCollapsed(true);
+    }
   };
 
   // Delete a chat session
@@ -304,6 +328,14 @@ export default function App() {
 
   return (
     <div className="app-container">
+      {/* Sidebar Overlay Backdrop for Mobile */}
+      {!sidebarCollapsed && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setSidebarCollapsed(true)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
@@ -324,7 +356,12 @@ export default function App() {
             <div 
               key={chat.id} 
               className={`history-item ${chat.id === activeChatId ? 'active' : ''}`}
-              onClick={() => setActiveChatId(chat.id)}
+              onClick={() => {
+                setActiveChatId(chat.id);
+                if (window.innerWidth < 768) {
+                  setSidebarCollapsed(true);
+                }
+              }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
               <span>{chat.title}</span>
@@ -380,34 +417,11 @@ export default function App() {
         <div className="messages-container">
           {messages.length === 0 ? (
             <div className="welcome-container">
-              <div className="welcome-logo">🤖</div>
-              <h1 className="welcome-title">Grok ChatBot</h1>
+              <div className="welcome-logo">🧞</div>
+              <h1 className="welcome-title">Genie AI</h1>
               <p className="welcome-subtitle">
                 A premium, real-time streaming chatbot application powered by Groq. Created by Janidu Kasuntha.
               </p>
-              
-              <div className="suggestions-grid">
-                <div className="suggestion-card" onClick={() => handleSuggestionClick("Draft a polite email asking for feedback on a design project.")}>
-                  <div className="suggestion-icon">✍️</div>
-                  <div className="suggestion-header">Draft an Email</div>
-                  <div className="suggestion-desc">Ask for feedback on a recent project</div>
-                </div>
-                <div className="suggestion-card" onClick={() => handleSuggestionClick("Explain how a Server-Sent Events (SSE) connection works in Node.js.")}>
-                  <div className="suggestion-icon">💡</div>
-                  <div className="suggestion-header">Explain Concepts</div>
-                  <div className="suggestion-desc">How Server-Sent Events (SSE) stream data</div>
-                </div>
-                <div className="suggestion-card" onClick={() => handleSuggestionClick("Write a JavaScript function to reverse a string and explain it.")}>
-                  <div className="suggestion-icon">💻</div>
-                  <div className="suggestion-header">Code Helper</div>
-                  <div className="suggestion-desc">Write and detail a Javascript function</div>
-                </div>
-                <div className="suggestion-card" onClick={() => handleSuggestionClick("Give me 3 creative business ideas combining AI and agriculture.")}>
-                  <div className="suggestion-icon">🚀</div>
-                  <div className="suggestion-header">Brainstorm Ideas</div>
-                  <div className="suggestion-desc">AI + Agriculture startup pitches</div>
-                </div>
-              </div>
             </div>
           ) : (
             <>
@@ -462,7 +476,7 @@ export default function App() {
             </button>
           </form>
           <div className="footer-disclaimer">
-            Gini is an AI assistant created for tasks. Responses stream live.
+            Genie is an AI assistant created for tasks. Responses stream live.
           </div>
         </footer>
       </main>

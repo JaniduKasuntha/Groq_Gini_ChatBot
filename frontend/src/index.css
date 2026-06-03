@@ -44,7 +44,9 @@ body {
   color: var(--text-primary);
   overflow: hidden;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
+  width: 100dvw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -53,7 +55,9 @@ body {
 .app-container {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
+  width: 100dvw;
   background: radial-gradient(circle at 50% 50%, #151b30 0%, var(--bg-primary) 80%);
   position: relative;
 }
@@ -702,4 +706,151 @@ body {
   40% {
     transform: scale(1.0);
   }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Sidebar Drawer styling */
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 280px;
+    max-width: 85dvw;
+    transform: translateX(0);
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 280px;
+    max-width: 85dvw;
+    border-right-width: 0;
+  }
+  
+  /* Sidebar Overlay Backdrop */
+  .sidebar-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+    animation: overlayFadeIn 0.2s ease-out;
+  }
+
+  /* Chat Header adjustment */
+  .chat-header {
+    height: 56px;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  
+  .toggle-sidebar-btn {
+    padding: 6px;
+  }
+
+  /* Viewport and messaging container adjustments */
+  .messages-container {
+    padding: 16px 12px;
+    gap: 16px;
+  }
+
+  /* Welcome Screen typography and scaling */
+  .welcome-container {
+    padding: 24px 16px;
+    gap: 20px;
+  }
+
+  .welcome-logo {
+    font-size: 3rem;
+  }
+
+  .welcome-title {
+    font-size: 1.85rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* Chat bubble width and sizes on mobile */
+  .message-wrapper {
+    max-width: 92%;
+    gap: 10px;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .message-bubble {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    border-radius: 16px;
+  }
+
+  /* Code block formatting on small screens */
+  .code-container {
+    margin: 10px 0;
+    border-radius: 8px;
+  }
+
+  .code-header {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+
+  .code-container pre {
+    padding: 12px;
+  }
+
+  .code-container code {
+    font-size: 0.8rem;
+  }
+
+  /* Footer and input field optimizations */
+  .chat-footer {
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+  }
+
+  .input-container {
+    border-radius: 12px;
+  }
+
+  .chat-input {
+    padding: 10px 48px 10px 12px;
+    font-size: 0.95rem;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .send-btn {
+    right: 5px;
+    bottom: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .footer-disclaimer {
+    font-size: 0.7rem;
+  }
+}
+
+/* Fallback backdrop display */
+@media (min-width: 769px) {
+  .sidebar-overlay {
+    display: none;
+  }
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
