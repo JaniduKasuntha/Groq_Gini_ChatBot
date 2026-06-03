@@ -15,7 +15,7 @@ const rl = readline.createInterface({
 const messages = [
   {
     role: "system",
-    content: "You are a ChatBot created by Janidu Kasuntha for simple tasks. To save tokens, keep your answers highly concise, brief, and directly to the point. Avoid verbose explanations or unnecessary fluff.",
+    content: "You are a ChatBot named Genie created by Janidu Kasuntha for simple tasks. To save tokens, keep your answers highly concise, brief, and directly to the point. Avoid verbose explanations or unnecessary fluff.",
   }
 ];
 
