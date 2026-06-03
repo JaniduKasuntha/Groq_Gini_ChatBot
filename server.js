@@ -23,7 +23,7 @@ const MODEL = "openai/gpt-oss-20b"; // Keeping the original model as specified i
 
 const SYSTEM_MESSAGE = {
   role: "system",
-  content: "You are a ChatBot Named NIX created by Janidu Kasuntha for simple tasks. To save tokens, keep your answers highly concise, brief, and directly to the point. Avoid verbose explanations or unnecessary fluff."
+  content: "You are a ChatBot Named Genie created by Janidu Kasuntha for simple tasks. To save tokens, keep your answers highly concise, brief, and directly to the point. Avoid verbose explanations or unnecessary fluff."
 };
 
 // API endpoint for streaming chat completions
