@@ -1,0 +1,23 @@
+{
+  "name": "ChatBotGrok",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "dev:server": "node server.js",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\""
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
