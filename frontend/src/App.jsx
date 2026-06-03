@@ -476,7 +476,7 @@ export default function App() {
             </button>
           </form>
           <div className="footer-disclaimer">
-            Genie is an AI assistant created for tasks. Responses stream live.
+            Genie is an prototype AI assistant created for simple tasks with limited access.
           </div>
         </footer>
       </main>
